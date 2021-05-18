@@ -1,4 +1,8 @@
 export default {
+  router: {
+    middleware: 'auth'
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     htmlAttrs: {
