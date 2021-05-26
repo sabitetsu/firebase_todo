@@ -6,5 +6,5 @@ const middleware:Middleware = ({ route, store, redirect }) => {
     if(! user && route.name !== 'login') redirect('/login')
   })
 }
-
+// test@test.com testpass
 export default middleware
