@@ -4,17 +4,20 @@
     <table class="table is-narrow">
       <thead>
         <tr>
-          <th>todo</th>
-          <th>limit</th>
+          <th>チェック</th>
+          <th>タスク</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="todo in $store.getters.getTodos" :key="todo.todo">
+        <tr v-for="todo in $store.getters.getTodos" :key="todo.index">
+          <td><input type="checkbox" v-model="todo.isFinished"></td>
           <td>{{todo.task}}</td>
-          <td>{{todo.isFinished}}</td>
         </tr>
       </tbody>
     </table>
+    <!-- <div v-for="todo in $store.getters.getTodos" :key="todo.index">
+      {{todo.task}}
+    </div> -->
   </div>
 </template>
 
