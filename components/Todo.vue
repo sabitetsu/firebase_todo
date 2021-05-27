@@ -15,14 +15,30 @@
         </tr>
       </tbody>
     </table>
-    <!-- <div v-for="todo in $store.getters.getTodos" :key="todo.index">
-      {{todo.task}}
-    </div> -->
+    <div>
+      <input v-model="newTodo" type="text" placeholder="task"><br>
+      <p @click="addTodo">add</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      newTodo: '',
+      newCheck: false
+    }
+  },
+  methods: {
+    addTodo(){
+      const task = this.newTodo
+      const check = this.newCheck
+
+      this.$store.dispatch('addTodo', {task, check})
+      this.newTodo = ''
+    }
+  },
   async created() {
     await this.$store.dispatch('fetchTodos')
   }

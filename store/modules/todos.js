@@ -12,6 +12,9 @@ export default{
   mutations: {
     addTodo(state, task){
       state.todos.push(task)
+    },
+    clearTodo(state){
+      state.todos = []
     }
   },
   actions: {
@@ -26,6 +29,19 @@ export default{
       })
       .catch(error => {
         console.log('えらー : ' + error)
+      })
+    },
+    addTodo({commit}, todo){
+      todoRef
+      .add({
+        task: todo.task,
+        isFinished: todo.check,
+      })
+      .then(function(docRef){
+        commit('addTodo',todo)
+      })
+      .catch(function(error){
+        console.error("えらー　あでぃんぐ　どきゅめんと: ", error);
       })
     }
   },
