@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { auth } from '../plugins/firebase'
+import firebase from '../plugins/firebase'
 
 @Component({
   layout: 'default',
@@ -22,10 +22,15 @@ export default class LoginPage extends Vue{
   mail: string = ''
   pass: string = ''
 
-  login(){
-    auth.signInWithEmailAndPassword(this.mail, this.pass)
-      .then(user => this.$router.push('/'))
-      .catch(e => alert(e.message))
-  }
+  login() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => {
+        return firebase.auth().signInWithPopup(provider)
+      })
+      .catch((error) => {
+        console.log('えらー：'+ error)
+      })
+    }
 }
 </script>

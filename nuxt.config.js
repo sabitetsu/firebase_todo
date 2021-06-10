@@ -65,7 +65,30 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: "AIzaSyB0r2FNMUynBqvUSGdT7K6rvbwmND3eWGg",
+          authDomain: "fir-todo-2ca53.firebaseapp.com",
+          projectId: "fir-todo-2ca53",
+          storageBucket: "fir-todo-2ca53.appspot.com",
+          messagingSenderId: "156861669641",
+          appId: "1:156861669641:web:308f14d1dae686ae64b3d8",
+          measurementId: "G-Q32D7CW1XD"
+        },
+        services: {
+          auth: {
+            initialize: {
+              // onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+              onAuthStateChangedAction: 'modules/login/onAuthStateChangedAction',
+              // subscribeManually: false
+            },
+          }
+        }
+      }
+    ]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

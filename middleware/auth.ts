@@ -1,10 +1,11 @@
 import { Middleware } from '@nuxt/types'
-import { auth } from '../plugins/firebase'
+import firebase from '../plugins/firebase'
 
 const middleware:Middleware = ({ route, store, redirect }) => {
-  auth.onAuthStateChanged((user) => {
-    if(! user && route.name !== 'login') redirect('/login')
-  })
+  console.log(firebase.auth().currentUser)
+  if(!firebase.auth().currentUser){
+    redirect(302,'/login')
+  }
 }
 // test@test.com testpass
 export default middleware

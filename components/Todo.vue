@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="todo">
     <h1>ToDo</h1>
     <table class="table is-narrow">
       <thead>
@@ -9,9 +9,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="todo in $store.getters.getTodos" :key="todo.index">
+        <tr v-for="(todo,i) in $store.getters.getTodos" :key="i">
           <td><input type="checkbox" v-model="todo.isFinished"></td>
           <td>{{todo.task}}</td>
+          <button @click="deleteTodo(todo.id,i)">×</button>
         </tr>
       </tbody>
     </table>
@@ -37,6 +38,13 @@ export default {
 
       this.$store.dispatch('addTodo', {task, check})
       this.newTodo = ''
+    },
+    deleteTodo(id,index){
+      console.log("ボタン押された.indexは")
+      console.log(id)
+      // this.todo.splice(id,1)
+      // this.$store.commit('remove',{index})
+      this.$store.dispatch('deleteTodo',{ id,index })
     }
   },
   async created() {
@@ -44,3 +52,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.todo{
+  background: gold;
+}
+</style>

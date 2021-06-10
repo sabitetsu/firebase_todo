@@ -15,6 +15,10 @@ export default{
     },
     clearTodo(state){
       state.todos = []
+    },
+    deleteTodo(state, index){
+      state.todos.splice(index,1)
+      console.log(index)
     }
   },
   actions: {
@@ -23,7 +27,6 @@ export default{
       .get()
       .then(res => {
         res.forEach((doc) => {
-          console.log('さくせす : ' + `${doc.id} => ${doc.data()}`);
           commit('addTodo', doc.data())
         })
       })
@@ -32,16 +35,29 @@ export default{
       })
     },
     addTodo({commit}, todo){
+      const ref = todoRef.doc()
       todoRef
-      .add({
+      .doc(ref.id)
+      .set({
+        id: ref.id,
         task: todo.task,
-        isFinished: todo.check,
+        isFinished: todo.check
       })
       .then(function(docRef){
         commit('addTodo',todo)
       })
       .catch(function(error){
-        console.error("えらー　あでぃんぐ　どきゅめんと: ", error);
+        console.error("えらー　あでぃんぐ　どきゅめんと: ", error)
+      })
+    },
+    deleteTodo({commit}, {id,index}){
+
+      todoRef.doc(id).delete()
+      .then(
+        commit('deleteTodo',index),
+      )
+      .catch(function(error){
+        console.error("えらー　りむーぶ　どきゅめんと：", error)
       })
     }
   },
@@ -51,35 +67,3 @@ export default{
     }
   }
 }
-
-// export const state = () => ({
-//   todos: []
-// })
-
-// export const mutations = {
-//   addTodo(state, task){
-//     state.todos.push(task)
-//   }
-// }
-
-// export const actions = {
-//   fetchTodos({ commit }) {
-//     todoRef
-//     .get()
-//     .then(res => {
-//       res.forEach((doc) => {
-//         console.log('さくせす : ' + `${doc.id} => ${doc.data()}`);
-//         commit('addTodo', doc.data())
-//       })
-//     })
-//     .catch(error => {
-//       console.log('えらー : ' + error)
-//     })
-//   }
-// }
-
-// export const getters = {
-//   getTodos(state){
-//     return state.todos
-//   }
-// }
