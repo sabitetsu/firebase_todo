@@ -17,8 +17,8 @@
       </tbody>
     </table>
     <div>
-      <input v-model="newTodo" type="text" placeholder="task"><br>
-      <p @click="addTodo">add</p>
+      <input class="todo_input" v-model="newTodo" type="text" placeholder="task"><br>
+      <p class="todo_add" @click="addTodo">add</p>
     </div>
   </div>
 </template>
@@ -40,10 +40,6 @@ export default {
       this.newTodo = ''
     },
     deleteTodo(id,index){
-      console.log("ボタン押された.indexは")
-      console.log(id)
-      // this.todo.splice(id,1)
-      // this.$store.commit('remove',{index})
       this.$store.dispatch('deleteTodo',{ id,index })
     }
   },
@@ -53,8 +49,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .todo{
   background: gold;
+  &_input{
+    background: blue;
+  }
+  &_add{
+    background: green;
+    width: 10%;
+  }
 }
 </style>

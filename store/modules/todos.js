@@ -10,29 +10,42 @@ export default{
     }
   },
   mutations: {
-    addTodo(state, task){
-      state.todos.push(task)
+    INIT_TODO(state, payload){
+      state.todos = payload
     },
-    clearTodo(state){
-      state.todos = []
+    ADD_TODO(state, payload){
+      state.todos.push(payload)
     },
-    deleteTodo(state, index){
-      state.todos.splice(index,1)
-      console.log(index)
+    SET_TODO(state,payload){
+      const index = state.todos.findIndex(item => item.id === payload.id)
+      if (index !== -1){
+          state.todos[index] = payload
+      }
+    },
+    REMOVED_TODO(state, payload){
+      const index = state.todos.findIndex(item => item.id === payload.id)
+      if(index !== -1){
+          state.todos.splice(index,1)
+      }
     }
   },
   actions: {
     fetchTodos({ commit }) {
       todoRef
-      .get()
-      .then(res => {
-        res.forEach((doc) => {
-          commit('addTodo', doc.data())
-        })
-      })
-      .catch(error => {
-        console.log('えらー : ' + error)
-      })
+      .onSnapshot(
+        res => {
+          res.docChanges().forEach(change =>{
+            if(change.type === 'added'){
+              commit('ADD_TODO', change.doc.data())
+            }else if(change.type === 'modified'){
+              commit('SET_TODO', change.doc.data())
+            }else if(change.type === 'removed'){
+              commit('REMOVED_TODO',change.doc.data())
+            }
+          })
+          
+        }
+      )
     },
     addTodo({commit}, todo){
       const ref = todoRef.doc()
@@ -43,18 +56,14 @@ export default{
         task: todo.task,
         isFinished: todo.check
       })
-      .then(function(docRef){
-        commit('addTodo',todo)
-      })
       .catch(function(error){
         console.error("えらー　あでぃんぐ　どきゅめんと: ", error)
       })
     },
     deleteTodo({commit}, {id,index}){
-
       todoRef.doc(id).delete()
       .then(
-        commit('deleteTodo',index),
+        // commit('deleteTodo',index)
       )
       .catch(function(error){
         console.error("えらー　りむーぶ　どきゅめんと：", error)
