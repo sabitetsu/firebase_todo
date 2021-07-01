@@ -1,9 +1,6 @@
 <template>
   <v-container>
     <h1>Hello World!</h1>
-    <!-- <button class="button is-primary is-rounded" @click="login">
-        ログイン
-    </button> -->
     <Todo />
     <!-- <div v-if="isLogin"><v-btn @click="logout">ログアウト</v-btn></div> -->
   </v-container>
